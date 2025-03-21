@@ -13,14 +13,9 @@ export function AlertItem({ alert }: AlertItemProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.leftContent}>
-        <View style={styles.iconPlaceholder}>
-          <Text style={styles.iconText}>{alert.symbol[0]}</Text>
-        </View>
-        <View style={styles.nameContainer}>
-          <Text style={styles.symbol}>{alert.symbol}</Text>
-          <Text style={styles.name}>{alert.name}</Text>
-        </View>
+      <View style={styles.nameContainer}>
+        <Text style={styles.symbol}>{alert.symbol}</Text>
+        <Text style={styles.name}>{alert.name}</Text>
       </View>
       <View style={styles.priceContainer}>
         <Text style={styles.price}>
@@ -44,24 +39,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
     backgroundColor: 'white',
-  },
-  leftContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconPlaceholder: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  iconText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#757575',
   },
   nameContainer: {
     justifyContent: 'center',

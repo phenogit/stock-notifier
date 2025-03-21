@@ -74,3 +74,30 @@ export const MOCK_ALERTS: AlertsData = [
     floorPrice: 113.59,
   },
 ];
+
+export interface StockInfo {
+  date: string;
+  type: string;
+  exchange: string;
+  market: string;
+  symbol: string;
+  name: string;
+  industry: string;
+  securityType: string;
+  previousClose: number;
+  referencePrice: number;
+  limitUpPrice: number;
+  limitDownPrice: number;
+  canDayTrade: boolean;
+  canBuyDayTrade: boolean;
+  canBelowFlatMarginShortSell: boolean;
+  canBelowFlatSBLShortSell: boolean;
+  isAttention: boolean;
+  isDisposition: boolean;
+  isUnusuallyRecommended: boolean;
+  isSpecificAbnormally: boolean;
+  matchingInterval: number;
+  securityStatus: string;
+  boardLot: number;
+  tradingCurrency: string;
+}

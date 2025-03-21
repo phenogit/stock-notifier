@@ -8,8 +8,10 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import { Alert } from '../types/alerts';
+import { fetchStockInfo } from '../services/stockService';
 
 interface AddAlertModalProps {
   visible: boolean;
@@ -22,6 +24,37 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
   const [name, setName] = useState('');
   const [ceilingPrice, setCeilingPrice] = useState('');
   const [floorPrice, setFloorPrice] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSymbolChange = async (text: string) => {
+    // Only allow numbers
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setSymbol(numericValue);
+    setError(null);
+
+    // Only fetch if we have exactly 4 digits
+    if (numericValue.length === 4) {
+      setIsLoading(true);
+      try {
+        const stockInfo = await fetchStockInfo(numericValue);
+        setName(stockInfo.name);
+        setCeilingPrice(stockInfo.limitUpPrice.toString());
+        setFloorPrice(stockInfo.limitDownPrice.toString());
+      } catch (error) {
+        setError('無法取得股票資訊');
+        setName('');
+        setCeilingPrice('');
+        setFloorPrice('');
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setName('');
+      setCeilingPrice('');
+      setFloorPrice('');
+    }
+  };
 
   const handleSubmit = () => {
     if (!symbol || !name || !ceilingPrice || !floorPrice) return;
@@ -39,6 +72,7 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
     setName('');
     setCeilingPrice('');
     setFloorPrice('');
+    setError(null);
     onClose();
   };
 
@@ -67,19 +101,26 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
               <TextInput
                 style={styles.input}
                 value={symbol}
-                onChangeText={setSymbol}
-                placeholder="例如：AAPL"
-                autoCapitalize="characters"
+                onChangeText={handleSymbolChange}
+                placeholder="例如：2330"
+                keyboardType="number-pad"
+                maxLength={4}
+                editable={!isLoading}
               />
+              {isLoading && (
+                <ActivityIndicator style={styles.loader} color="#007AFF" />
+              )}
             </View>
+
+            {error && <Text style={styles.errorText}>{error}</Text>}
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>股票名稱</Text>
               <TextInput
-                style={styles.input}
+                style={[styles.input, styles.readOnlyInput]}
                 value={name}
-                onChangeText={setName}
-                placeholder="例如：Apple Inc."
+                placeholder="自動填入"
+                editable={false}
               />
             </View>
 
@@ -91,6 +132,7 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
                 onChangeText={setCeilingPrice}
                 placeholder="例如：150.00"
                 keyboardType="decimal-pad"
+                editable={!isLoading}
               />
             </View>
 
@@ -102,10 +144,18 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
                 onChangeText={setFloorPrice}
                 placeholder="例如：140.00"
                 keyboardType="decimal-pad"
+                editable={!isLoading}
               />
             </View>
 
-            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+            <TouchableOpacity 
+              style={[
+                styles.submitButton,
+                (!symbol || !name || !ceilingPrice || !floorPrice || isLoading) && styles.submitButtonDisabled
+              ]} 
+              onPress={handleSubmit}
+              disabled={!symbol || !name || !ceilingPrice || !floorPrice || isLoading}
+            >
               <Text style={styles.submitButtonText}>新增</Text>
             </TouchableOpacity>
           </View>
@@ -161,6 +211,10 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 16,
   },
+  readOnlyInput: {
+    backgroundColor: '#F5F5F5',
+    color: '#757575',
+  },
   submitButton: {
     backgroundColor: '#007AFF',
     padding: 16,
@@ -168,9 +222,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
   },
+  submitButtonDisabled: {
+    backgroundColor: '#B0B0B0',
+  },
   submitButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  errorText: {
+    color: '#FF3B30',
+    fontSize: 14,
+    marginTop: -8,
+  },
+  loader: {
+    position: 'absolute',
+    right: 12,
+    top: 40,
   },
 }); 

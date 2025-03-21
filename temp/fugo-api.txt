@@ -8,3 +8,5 @@ export class StockInfoAPI {
     return (await axios.get(`${FUGLE_API_URL}?stockId=${stockId}`)).data;
   }
 }
+
+ZTUwMDYxMGMtZTUwMS00MzdlLTlmNTAtZmVkNDFiMjZhNDcyIDkxYjNiYjYxLTUxZWUtNGI5NC1hMjIxLWZjYTgxYzAzZTEyMg==

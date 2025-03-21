@@ -10,7 +10,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.header}>
-        <Text style={styles.title}>Your Alerts</Text>
+        <Text style={styles.title}>您所關注的</Text>
         <TouchableOpacity style={styles.addButton}>
           <Ionicons name="add" size={24} color="#007AFF" />
         </TouchableOpacity>

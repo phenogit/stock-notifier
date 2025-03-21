@@ -2,9 +2,11 @@ export interface Alert {
   id: string;
   symbol: string;
   name: string;
+  type: "stock" | "crypto";
   price: number;
   priceChange: number;
-  type: "stock" | "crypto";
+  ceilingPrice: number;
+  floorPrice: number;
   icon?: string;
 }
 
@@ -18,6 +20,8 @@ export const MOCK_ALERTS: AlertsData = [
     price: 602.5,
     priceChange: 1.25,
     type: "stock",
+    ceilingPrice: 603.75,
+    floorPrice: 599.25,
   },
   {
     id: "2",
@@ -26,6 +30,8 @@ export const MOCK_ALERTS: AlertsData = [
     price: 51291,
     priceChange: 7.9,
     type: "crypto",
+    ceilingPrice: 51370,
+    floorPrice: 51212,
   },
   {
     id: "3",
@@ -34,6 +40,8 @@ export const MOCK_ALERTS: AlertsData = [
     price: 263.35,
     priceChange: 0.52,
     type: "stock",
+    ceilingPrice: 263.87,
+    floorPrice: 262.83,
   },
   {
     id: "4",
@@ -42,6 +50,8 @@ export const MOCK_ALERTS: AlertsData = [
     price: 132.85,
     priceChange: 13.52,
     type: "stock",
+    ceilingPrice: 146.37,
+    floorPrice: 129.33,
   },
   {
     id: "5",
@@ -50,6 +60,8 @@ export const MOCK_ALERTS: AlertsData = [
     price: 382720.0,
     priceChange: -2.47,
     type: "stock",
+    ceilingPrice: 383002.4,
+    floorPrice: 382437.6,
   },
   {
     id: "6",
@@ -58,5 +70,7 @@ export const MOCK_ALERTS: AlertsData = [
     price: 118.32,
     priceChange: 4.72,
     type: "stock",
+    ceilingPrice: 123.05,
+    floorPrice: 113.59,
   },
 ];

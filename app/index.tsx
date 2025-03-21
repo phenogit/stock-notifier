@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AlertItem } from './components/AlertItem';
-import { MOCK_ALERTS } from './types/alerts';
 import { Ionicons } from '@expo/vector-icons';
+import { Alert } from './types/alerts';
 
 export default function App() {
   return (
@@ -15,8 +15,8 @@ export default function App() {
           <Ionicons name="add" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={MOCK_ALERTS}
+      <FlatList<Alert>
+        data={[]}
         renderItem={({ item }) => <AlertItem alert={item} />}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}

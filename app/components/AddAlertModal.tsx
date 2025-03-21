@@ -22,6 +22,7 @@ interface AddAlertModalProps {
 export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps) {
   const [symbol, setSymbol] = useState('');
   const [name, setName] = useState('');
+  const [referencePrice, setReferencePrice] = useState<string>('');
   const [ceilingPrice, setCeilingPrice] = useState('');
   const [floorPrice, setFloorPrice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,20 +40,17 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
       try {
         const stockInfo = await fetchStockInfo(numericValue);
         setName(stockInfo.name);
-        setCeilingPrice(stockInfo.limitUpPrice.toString());
-        setFloorPrice(stockInfo.limitDownPrice.toString());
+        setReferencePrice(stockInfo.referencePrice.toString());
       } catch (error) {
         setError('無法取得股票資訊');
         setName('');
-        setCeilingPrice('');
-        setFloorPrice('');
+        setReferencePrice('');
       } finally {
         setIsLoading(false);
       }
     } else {
       setName('');
-      setCeilingPrice('');
-      setFloorPrice('');
+      setReferencePrice('');
     }
   };
 
@@ -70,6 +68,7 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
     // Reset form
     setSymbol('');
     setName('');
+    setReferencePrice('');
     setCeilingPrice('');
     setFloorPrice('');
     setError(null);
@@ -123,6 +122,18 @@ export function AddAlertModal({ visible, onClose, onSubmit }: AddAlertModalProps
                 editable={false}
               />
             </View>
+
+            {referencePrice && (
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>參考價格</Text>
+                <TextInput
+                  style={[styles.input, styles.readOnlyInput]}
+                  value={referencePrice}
+                  placeholder="自動填入"
+                  editable={false}
+                />
+              </View>
+            )}
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>上限價格</Text>

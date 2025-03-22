@@ -17,6 +17,16 @@ export function AlertItem({ alert }: AlertItemProps) {
         <Text style={styles.symbol}>{alert.symbol}</Text>
         <Text style={styles.name}>{alert.name}</Text>
       </View>
+      <View style={styles.priceRangeContainer}>
+        <Text style={styles.priceRangeLabel}>上限</Text>
+        <Text style={styles.priceRangeValue}>
+          ${alert.type === 'crypto' ? alert.ceilingPrice.toLocaleString() : alert.ceilingPrice.toFixed(2)}
+        </Text>
+        <Text style={styles.priceRangeLabel}>下限</Text>
+        <Text style={styles.priceRangeValue}>
+          ${alert.type === 'crypto' ? alert.floorPrice.toLocaleString() : alert.floorPrice.toFixed(2)}
+        </Text>
+      </View>
       <View style={styles.priceContainer}>
         <Text style={styles.price}>
           ${alert.type === 'crypto' ? alert.price.toLocaleString() : alert.price.toFixed(2)}
@@ -42,6 +52,7 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     justifyContent: 'center',
+    flex: 1,
   },
   symbol: {
     fontSize: 16,
@@ -53,8 +64,23 @@ const styles = StyleSheet.create({
     color: '#757575',
     marginTop: 2,
   },
+  priceRangeContainer: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  priceRangeLabel: {
+    fontSize: 12,
+    color: '#757575',
+    marginBottom: 2,
+  },
+  priceRangeValue: {
+    fontSize: 14,
+    color: '#212121',
+    fontWeight: '500',
+  },
   priceContainer: {
     alignItems: 'flex-end',
+    flex: 1,
   },
   price: {
     fontSize: 16,
